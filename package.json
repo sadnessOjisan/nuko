@@ -19,5 +19,8 @@
   "homepage": "https://github.com/sadnessOjisan/nuko#readme",
   "devDependencies": {
     "typescript": "^4.6.4"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
