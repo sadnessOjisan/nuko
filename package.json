@@ -1,0 +1,23 @@
+{
+  "name": "nuko",
+  "version": "0.0.1-rc.1",
+  "description": "にゃーん",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sadnessOjisan/nuko.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sadnessOjisan/nuko/issues"
+  },
+  "homepage": "https://github.com/sadnessOjisan/nuko#readme",
+  "devDependencies": {
+    "typescript": "^4.6.4"
+  }
+}
