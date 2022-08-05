@@ -1,3 +1,5 @@
-export const hello = () => {
-  console.log("hello");
+type Input = ReadonlyArray<string>;
+
+export const cn = (input: Input): string => {
+  return input.join(" ");
 };
