@@ -1,13 +1,17 @@
-type Input = ReadonlyArray<string | number | boolean | Record<string, boolean>>;
+type ArrayInput = ReadonlyArray<
+  string | number | boolean | Record<string, unknown>
+>;
 
-type InputForVariadic = ReadonlyArray<Input>;
+type InputForVariadic = ReadonlyArray<
+  ArrayInput | Record<string, unknown> | null | Array<unknown> | number | string
+>;
 
 /**
  * Cat classname
  * @param input
  * @returns
  */
-export const cn = (...input: Input | InputForVariadic): string => {
+export const cn = (...input: ArrayInput | InputForVariadic): string => {
   const isInputVariadicArg = input.length > 1;
   if (isInputVariadicArg && Array.isArray(input)) {
     return input.filter((el) => Boolean(el)).join(" ");
