@@ -21,11 +21,32 @@ type Input =
 type InputForVariadic = ReadonlyArray<Input>;
 
 /**
- * Cat classname
- * @param input
- * @returns
+ * Simple catting function mainly for class name.
+ * This is only for variadic.
+ * And this is not support for Object and Array.
+ * If you want support those, you should use {@link clsx} function.
+ * Our {@link clsx} is compatible for {@link https://github.com/JedWatson/classnames classnames} and {@link https://github.com/lukeed/clsx clsx} version.
+ * @param input Variadic input. This doesn't accept array and object.
+ * @return Joined string.
+ * @example cn("a", "b")
+ * // "a b"
+ * @example cn("a", "b", false, 0, null, undefined, "")
+ * // "a b"
  */
-export const cn = (...input: InputForVariadic): string => {
+export const cn = (
+  ...input: ReadonlyArray<string | boolean | number | null | undefined>
+): string => {
+  return input.filter((el) => Boolean(el)).join(" ");
+};
+
+/**
+ * catting function mainly for class name.
+ * This has compatible for {@link https://github.com/JedWatson/classnames classnames} and {@link https://github.com/lukeed/clsx clsx}.
+ * But this is slower and heavier than {@link cn}.
+ * @param input
+ * @returns Joined string.
+ */
+export const clsx = (...input: InputForVariadic): string => {
   let userInput: Input;
   if (input.length === 1) {
     userInput = input[0];
@@ -52,7 +73,6 @@ const noVariadicCn = (input: Input): string => {
 
 const arrayCat = (input: ReadonlyArray<ArrayInput>) => {
   const flat = input.flat();
-
   const head = flat[0];
   const rest = flat.slice(1);
   const headResult = noVariadicCn(head);
@@ -67,7 +87,6 @@ const arrayCat = (input: ReadonlyArray<ArrayInput>) => {
 const catForObjectInput = (input: Object): string => {
   return Object.entries(input)
     .filter((set) => {
-      const key = set[0];
       const value = set[1];
       // Check truthy not empty. This is compatible for classnames.
       return Boolean(value);
