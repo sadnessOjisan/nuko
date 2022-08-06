@@ -4,7 +4,7 @@
   "description": "にゃーん",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
     "build": "tsc"
   },
   "repository": {
@@ -19,7 +19,8 @@
   "homepage": "https://github.com/sadnessOjisan/nuko#readme",
   "devDependencies": {
     "can-npm-publish": "^1.3.6",
-    "typescript": "^4.6.4"
+    "typescript": "^4.6.4",
+    "vitest": "^0.21.0"
   },
   "files": [
     "dist"
