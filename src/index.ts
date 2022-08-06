@@ -1,16 +1,22 @@
 import { isEmpty } from "./util";
 
-type ArrayInput = ReadonlyArray<
-  string | number | boolean | Record<string, unknown>
->;
-
-type Input =
-  | ArrayInput
+type ArrayInput =
+  | ReadonlyArray<ArrayInput>
   | Record<string, unknown>
   | null
-  | Array<unknown>
   | number
-  | string;
+  | string
+  | undefined
+  | boolean;
+
+type Input =
+  | Record<string, unknown>
+  | null
+  | ReadonlyArray<ArrayInput>
+  | number
+  | string
+  | undefined
+  | boolean;
 
 type InputForVariadic = ReadonlyArray<Input>;
 
@@ -20,7 +26,7 @@ type InputForVariadic = ReadonlyArray<Input>;
  * @returns
  */
 export const cn = (...input: InputForVariadic): string => {
-  let userInput;
+  let userInput: Input;
   if (input.length === 1) {
     userInput = input[0];
   } else {
@@ -30,7 +36,7 @@ export const cn = (...input: InputForVariadic): string => {
   return noVariadicCn(userInput);
 };
 
-const noVariadicCn = (input: unknown): string => {
+const noVariadicCn = (input: Input): string => {
   if (input === undefined) return "";
   if (isEmpty(input)) return "";
 
@@ -44,7 +50,7 @@ const noVariadicCn = (input: unknown): string => {
   return "";
 };
 
-const arrayCat = (input: unknown[]) => {
+const arrayCat = (input: ReadonlyArray<ArrayInput>) => {
   const flat = input.flat();
 
   const head = flat[0];
