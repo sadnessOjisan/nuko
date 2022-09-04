@@ -12,7 +12,8 @@
     "_prettier": "prettier 'src/**/*.{js,jsx,ts,tsx,html,css,json,yaml,yml}'",
     "format:fix": "npm run _prettier -- --write",
     "format:check": "npm run _prettier -- --check",
-    "test": "vitest test"
+    "test": "vitest test",
+    "can-npm-publish": "can-npm-publish"
   },
   "repository": {
     "type": "git",
