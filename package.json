@@ -31,8 +31,8 @@
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.7.1",
-    "typescript": "^4.6.4",
-    "vitest": "^0.21.0"
+    "typescript": "^4.8.2",
+    "vitest": "^0.22.1"
   },
   "files": [
     "dist"
