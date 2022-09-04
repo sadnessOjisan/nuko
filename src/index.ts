@@ -1,90 +1,42 @@
-import { isEmpty } from "./util";
+type Value = string | boolean | number | null | undefined;
 
-type ArrayInput =
-  | ReadonlyArray<ArrayInput>
-  | Record<string, unknown>
-  | null
-  | number
-  | string
-  | undefined
-  | boolean;
+// FIXME: Use ReadonlyArray after https://github.com/microsoft/TypeScript/issues/17002 is resolved.
+type ArrayInput = Array<Value>;
 
-type Input =
-  | Record<string, unknown>
-  | null
-  | ReadonlyArray<ArrayInput>
-  | number
-  | string
-  | undefined
-  | boolean;
-
-type InputForVariadic = ReadonlyArray<Input>;
+type ObjectInput = Record<string, Value>;
 
 /**
- * Simple catting function mainly for class name.
- * This is only for variadic.
- * And this is not support for Object and Array.
- * If you want support those, you should use {@link clsx} function.
- * Our {@link clsx} is compatible for {@link https://github.com/JedWatson/classnames classnames} and {@link https://github.com/lukeed/clsx clsx} version.
- * @param input Variadic input. This doesn't accept array and object.
+ * Join class name.
+ * This is only support for Object and Array input.
+ * And this is not support for nest inoput.
+ * If you want support for variadic input, nest input, and so on, you should use {@link https://github.com/lukeed/clsx clsx}.
+ * @param input
  * @return Joined string.
- * @example cn("a", "b")
+ * @example cn(["a", "b"])
  * // "a b"
- * @example cn("a", "b", false, 0, null, undefined, "")
- * // "a b"
+ * @example cn(["a", "b" && false, "c", 0])
+ * // "a c"
+ * @example cn({a: true, b: false, c: true})
+ * // "a c"
  */
-export const cn = (
-  ...input: ReadonlyArray<string | boolean | number | null | undefined>
-): string => {
+export const cn = (input: ArrayInput | ObjectInput): string => {
+  if (Array.isArray(input)) {
+    return catForObjectArray(input);
+  } else if (typeof input === "object") {
+    if (input === null) {
+      throw new Error("Input type should be array or object.");
+    }
+    return catForObjectInput(input);
+  } else {
+    throw new Error("Input type should be array or object.");
+  }
+};
+
+const catForObjectArray = (input: ArrayInput): string => {
   return input.filter((el) => Boolean(el)).join(" ");
 };
 
-/**
- * catting function mainly for class name.
- * This has compatible for {@link https://github.com/JedWatson/classnames classnames} and {@link https://github.com/lukeed/clsx clsx}.
- * But this is slower and heavier than {@link cn}.
- * @param input
- * @returns Joined string.
- */
-export const clsx = (...input: InputForVariadic): string => {
-  let userInput: Input;
-  if (input.length === 1) {
-    userInput = input[0];
-  } else {
-    // variadic
-    userInput = input;
-  }
-  return noVariadicCn(userInput);
-};
-
-const noVariadicCn = (input: Input): string => {
-  if (input === undefined) return "";
-  if (isEmpty(input)) return "";
-
-  if (Array.isArray(input)) {
-    return arrayCat(input);
-  } else if (typeof input === "string" || typeof input === "number") {
-    return String(input);
-  } else if (typeof input === "object" && input !== null) {
-    return catForObjectInput(input);
-  }
-  return "";
-};
-
-const arrayCat = (input: ReadonlyArray<ArrayInput>) => {
-  const flat = input.flat();
-  const head = flat[0];
-  const rest = flat.slice(1);
-  const headResult = noVariadicCn(head);
-  if (rest.length === 0) {
-    return headResult;
-  }
-  const restResult = noVariadicCn(rest);
-  if (headResult === "") return restResult;
-  return restResult === "" ? headResult : `${headResult} ${restResult}`;
-};
-
-const catForObjectInput = (input: Object): string => {
+const catForObjectInput = (input: ObjectInput): string => {
   return Object.entries(input)
     .filter((set) => {
       const value = set[1];
