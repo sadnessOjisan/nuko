@@ -23,5 +23,7 @@ jobs:
       - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
         name: Install npm packages
         run: npm install
+      - name: can npm publish
+        run: npm run can-npm-publish
       - name: static check
         uses: ./.github/actions/static-check
