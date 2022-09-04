@@ -1,39 +1,29 @@
-# nuko
+<p align="center">
+  <img src="./cat.png" alt="logo" width="200"/>
+</p>
 
-Cat CSS's class name.
+# <p align="center">nuko</p>
+
+Simple constructing className function.
+
+Nuko means cat in Japan.
 
 ## How to use
 
-```jsx
-// Blazing fast function. But this supports for only variadic args and doesn't support object and array.
+I recommend you to copy src/index.ts to your project directly.
 
-cn("a", "b");
-//  a b
+Or if you want to use it as node_module, run
 
-cn("a", "b", false, 0, null, undefined, "");
-// "a b"
-
-const Hello = () => {
-  const [show, setShow] = useState(false);
-
-  return (
-    <div className={cn(styles.text, show && styles.show)}>Hello world!!</div>
-  );
-};
+```
+$ npm install nuko
 ```
 
-```js
-// Compatible for clsx and classnames version
-clsx({
-  a: true,
-  b: false,
-  c: 0,
-  d: null,
-  e: undefined,
-  f: 1,
-});
-// a f
+And use it.
 
-clsx(["foo"], ["", 0, false, "bar"], [["baz", [["hello"], "there"]]]);
-// foo bar baz hello there
+```ts
+import { cn } from "nuko";
+
+cn(["a", 0, null, undefined, false, true, "b"]); // a b
+
+cn({ foo: true, bar: false, baz: true }); // foo baz
 ```
