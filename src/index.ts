@@ -33,7 +33,13 @@ export const cn = (input: ArrayInput | ObjectInput): string => {
 };
 
 const catForObjectArray = (input: ArrayInput): string => {
-  return input.filter((el) => Boolean(el)).join(" ");
+  return input
+    .filter((el) => {
+      if (el && el !== true) {
+        return el;
+      }
+    })
+    .join(" ");
 };
 
 const catForObjectInput = (input: ObjectInput): string => {
